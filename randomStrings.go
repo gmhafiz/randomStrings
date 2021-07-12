@@ -1,46 +1,40 @@
-package main
+package randomStrings
 
 import (
 	"crypto/rand"
-	"flag"
-	"fmt"
 	"log"
 )
 
-var iteration int
-var length int
-var randType string
 
-func init() {
-	flag.IntVar(&iteration, "n", 1, "Number of random strings to generate")
-	flag.IntVar(&length, "l", 31, "Length of the random string to generate")
-	flag.StringVar(&randType, "t", "all",
-		"all|alpha|number|alphanum Length of the random string to generate")
-	flag.Parse()
-}
+
+
+const  (
+	Alpha string = "alpha"
+	Number string = "number"
+	AlphaNum string = "alphanum"
+	All string = "all"
+)
+
 
 // MODIFIED from https://socketloop.com/tutorials/golang-how-to-generate-random-string
-func randStr(strSize int, randType string) []byte {
+func RandStr(strSize int, randType string) []byte {
 
 	var dictionary string
 	alphabet := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 	numbers := "0123456789"
 	specialCharacters := "~@#$%^&*()_+|[]{}';\"?/.,><"
 
-	if randType == "alpha" {
+	switch randType {
+	case Alpha:
 		dictionary = alphabet
-	}
-
-	if randType == "number" {
+	case Number:
 		dictionary = numbers
-	}
-
-	if randType == "alphanum" {
+	case AlphaNum:
 		dictionary = numbers + alphabet
-	}
-
-	if randType == "all" {
+	case All:
 		dictionary = numbers + alphabet + specialCharacters
+	default:
+		return nil
 	}
 
 	var bytes = make([]byte, strSize)
@@ -54,11 +48,3 @@ func randStr(strSize int, randType string) []byte {
 	return bytes
 }
 
-func main() {
-	n := 0
-	for n < iteration {
-		randomString := randStr(length, randType)
-		fmt.Println(string(randomString))
-		n += 1
-	}
-}
