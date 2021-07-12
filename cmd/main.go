@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"randomStrings"
+	"github.com/gmhafiz/randomStrings"
 )
 var (
 	iteration int
